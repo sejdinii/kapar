@@ -1,0 +1,20 @@
+{
+  "name": "kapar",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Kapar — wedding-venue marketplace for North Macedonia. One app, two modes.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "scripts": {
+    "server:dev": "npm run start:dev --workspace @kapar/server",
+    "mobile:start": "npm run start --workspace @kapar/mobile",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "license": "UNLICENSED"
+}

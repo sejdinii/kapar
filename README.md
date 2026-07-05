@@ -49,3 +49,50 @@ available sources. Resolve that (and the cancellation spec) before M3.
 
 The recommended first real-world step is **not** writing code — it is confirming the
 `[VERIFY]` items in CLAUDE.md §7 with the payment processor and a local lawyer.
+
+---
+
+## Repository layout (scaffolded)
+
+The monorepo skeleton is in place (npm workspaces, TypeScript strict). **No feature code yet** —
+each module folder is a placeholder that fills in per the milestone order in CLAUDE.md §9.
+
+```
+kapar/
+├── apps/
+│   ├── mobile/                 React Native + Expo (TS strict). One app, two modes.
+│   │   └── src/
+│   │       ├── App.tsx         scaffold entry (proves toolchain + design tokens)
+│   │       ├── shared/         design-system · i18n (MK/SQ/EN) · api · auth · navigation
+│   │       └── modes/
+│   │           ├── couple/     C1–C13d  (built M4)
+│   │           └── business/   B1–B11   (core built M1; lazy-loaded bundle)
+│   └── server/                 NestJS + PostgreSQL
+│       └── src/
+│           ├── main.ts         bootstrap + /v1 prefix + OpenAPI at /docs
+│           ├── modules/        feature modules (added per milestone)
+│           ├── payments/       PaymentProvider interface + in-memory mock  ← the seam
+│           ├── rbac/           server-side authorization (venue_members)
+│           └── db/             schema + migrations (SPEC §8)
+└── packages/
+    └── shared-types/           kapar state machine, roles, sources, money (SPEC §8)
+```
+
+### Getting started
+
+```bash
+npm install            # installs all workspaces
+npm run server:dev     # NestJS on :3000, OpenAPI at /docs
+npm run mobile:start   # Expo dev server
+npm test               # runs the payment-seam smoke test
+```
+
+The `PaymentProvider` seam (`apps/server/src/payments/`) is wired to an in-memory mock that
+advertises a **conservative** capability set (tokenization + split payouts OFF) so callers
+exercise the fallback paths the real NM PSP may force. Every payment-gated method carries a
+`// KAPAR-BLOCKER:` marker — do not swap in a real provider until the §7/§10 `[VERIFY]` items are
+confirmed in that provider's current docs.
+
+> **Dependency versions** (Expo SDK, RN, NestJS) are pinned to plausible recent releases but were
+> not network-verified at scaffold time. Per CLAUDE.md §2, run `npm install` and let the resolver
+> confirm them (`npx expo install --check` for the mobile app) before relying on any library API.

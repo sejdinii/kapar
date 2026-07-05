@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Kapar",
+    "slug": "kapar",
+    "scheme": "kapar",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "primaryColor": "#4C1D95",
+    "splash": {
+      "backgroundColor": "#F5F3FF"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "mk.kapar.app"
+    },
+    "android": {
+      "package": "mk.kapar.app"
+    },
+    "extra": {
+      "comment": "Phone-only product (SPEC §1). No desktop/web target. Deep-link scheme kapar:// for mode-tagged notifications."
+    }
+  }
+}
