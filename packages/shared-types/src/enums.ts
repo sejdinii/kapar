@@ -46,6 +46,8 @@ export type VenueStatus = (typeof VenueStatus)[keyof typeof VenueStatus];
  *                                                 ├─decline→ DECLINED
  *                                                 └─window lapses→ EXPIRED
  *  CONFIRMED ─couple cancels→ CANCELLED_BY_COUPLE
+ *  CONFIRMED ─venue/owner cancels→ CANCELLED_BY_VENUE (offline bookings in M1;
+ *             app bookings are admin-mediated with full refund per SPEC C8)
  */
 export const BookingStatus = {
   Draft: 'DRAFT',
@@ -55,6 +57,7 @@ export const BookingStatus = {
   Declined: 'DECLINED',
   Expired: 'EXPIRED',
   CancelledByCouple: 'CANCELLED_BY_COUPLE',
+  CancelledByVenue: 'CANCELLED_BY_VENUE',
 } as const;
 export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus];
 
