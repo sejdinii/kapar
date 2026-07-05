@@ -69,11 +69,10 @@ export class AuthService {
    */
   async refresh(refreshToken: string): Promise<AuthTokens> {
     const tokenHash = sha256Hex(refreshToken);
-    const row = await this.refreshTokensRepository.findValid(tokenHash);
+    // findAny (not findValid): revoked rows must come back so a replayed rotated-out token
+    // is DETECTABLE rather than indistinguishable from an unknown token.
+    const row = await this.refreshTokensRepository.findAny(tokenHash);
     if (row === null) {
-      // Unknown, expired, or revoked-and-filtered-by-the-repo. findValid (contract §3) does not
-      // return the row for a revoked hash, so the replay branch below only fires if the
-      // repository implementation returns revoked rows for inspection. Either way: 401.
       throw AuthService.sessionExpired();
     }
     if (row.revokedAt !== null) {
